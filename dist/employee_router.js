@@ -13,8 +13,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const employee_entity_1 = __importDefault(require("./employee.entity"));
-const data_source_1 = __importDefault(require("./data-source"));
+const employee_entity_1 = __importDefault(require("./entities/employee.entity"));
+const data_source_1 = __importDefault(require("./db/data-source"));
 const employeeRouter = express_1.default.Router();
 employeeRouter.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const employeeRepository = data_source_1.default.getRepository(employee_entity_1.default);
@@ -40,7 +40,7 @@ employeeRouter.post("/", (req, res) => __awaiter(void 0, void 0, void 0, functio
     newEmployee.updatedAt = new Date();
     const employeeRepository = data_source_1.default.getRepository(employee_entity_1.default);
     yield employeeRepository.save(newEmployee);
-    res.status(200).send(newEmployee);
+    res.status(201).send(newEmployee);
 }));
 employeeRouter.delete("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const empId = Number(req.params["id"]);
@@ -55,10 +55,10 @@ employeeRouter.put("/:id", (req, res) => __awaiter(void 0, void 0, void 0, funct
     const employeeToUpdate = yield employeeRepository.findOneBy({ id: empId });
     employeeToUpdate.email = req.body.email;
     employeeToUpdate.name = req.body.name;
-    employeeToUpdate.createdAt = req.body.createdAt;
-    employeeToUpdate.updatedAt = req.body.updatedAt;
+    // employeeToUpdate.createdAt = req.body.createdAt;
+    // employeeToUpdate.updatedAt = req.body.updatedAt;
     yield employeeRepository.save(employeeToUpdate);
-    res.status(200).send(employeeToUpdate);
+    res.status(201).send(employeeToUpdate);
 }));
 employeeRouter.patch("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const empId = Number(req.params["id"]);
@@ -70,14 +70,14 @@ employeeRouter.patch("/:id", (req, res) => __awaiter(void 0, void 0, void 0, fun
     if (req.body.name) {
         employeeToUpdate.name = req.body.name;
     }
-    if (req.body.createdAt) {
-        employeeToUpdate.createdAt = req.body.createdAt;
-    }
-    if (req.body.updatedAt) {
+    if (req.body.createdAt) 
+    // {employeeToUpdate.createdAt = req.body.createdAt;}
+    // if(req.body.updatedAt)
+    {
         employeeToUpdate.updatedAt = req.body.updatedAt;
     }
     yield employeeRepository.save(employeeToUpdate);
-    res.status(200).send(employeeToUpdate);
+    res.status(201).send(employeeToUpdate);
 }));
 exports.default = employeeRouter;
 //# sourceMappingURL=employee_router.js.map

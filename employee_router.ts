@@ -1,6 +1,6 @@
 import express from "express";
-import Employee from "./employee.entity";
-import datasource from "./data-source";
+import Employee from "./entities/employee.entity";
+import datasource from "./db/data-source";
 import { Entity } from "typeorm";
 
 
@@ -52,8 +52,8 @@ employeeRouter.put("/:id", async (req, res) => {
   const employeeToUpdate = await employeeRepository.findOneBy({id:empId});
   employeeToUpdate.email = req.body.email;
   employeeToUpdate.name = req.body.name;
-  employeeToUpdate.createdAt = req.body.createdAt;
-  employeeToUpdate.updatedAt = req.body.updatedAt;
+  // employeeToUpdate.createdAt = req.body.createdAt;
+  // employeeToUpdate.updatedAt = req.body.updatedAt;
   await employeeRepository.save(employeeToUpdate)
   res.status(201).send(employeeToUpdate);
 });
@@ -67,8 +67,8 @@ employeeRouter.patch("/:id", async (req, res) => {
   if(req.body.name)
   {employeeToUpdate.name = req.body.name;}
   if(req.body.createdAt)
-  {employeeToUpdate.createdAt = req.body.createdAt;}
-  if(req.body.updatedAt)
+  // {employeeToUpdate.createdAt = req.body.createdAt;}
+  // if(req.body.updatedAt)
   {employeeToUpdate.updatedAt = req.body.updatedAt;}
   await employeeRepository.save(employeeToUpdate)
   res.status(201).send(employeeToUpdate);
